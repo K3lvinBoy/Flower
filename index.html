@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Especial para Ti</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primario: #f8f8f8; /* Blanco suave para la carta */
+            --fondo: #FEFCE8; /* Fondo amarillo suave */
+            --fondo-sobre: #f8f8f8; /* Blanco suave para el sobre */
+            --solapa-sobre: #f0f0f0; /* Blanco suave para las solapas */
+            --cuerpo-sobre: #f5f5f5; /* Blanco suave para el cuerpo del sobre */
+            --sombra: rgba(0, 0, 0, 0.1);
+            --texto: #4a4a4a; /* Color del texto */
+            --neon-amarillo: #FDC745; /* Amarillo neon más fuerte */
+        }
+
+        body {
+            background: var(--fondo);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            font-family: "Arial", sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* GIF animado como fondo */
+        .gif-fondo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .gif-fondo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-family: "Pacifico", cursive; /* Fuente más romántica */
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: #A65F1B; /* Color del título */
+        }
+
+        .subtitulo {
+            font-family: "Pacifico", cursive;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #A65F1B;
+        }
+
+        .abreme-texto {
+            font-family: "Dancing Script", cursive;
+            text-align: center;
+            font-size: 32px;
+            margin-top: 20px;
+            color: #A65F1B;
+            font-weight: bold;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .contenedor {
+            width: 400px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .envoltura-sobre {
+            position: relative;
+            background-color: var(--fondo-sobre);
+            box-shadow: 0 0 20px var(--sombra);
+            border-radius: 10px;
+            border: 3px solid var(--neon-amarillo);
+            box-shadow: 0 0 20px var(--neon-amarillo), 0 0 20px var(--sombra);
+        }
+
+        .sobre {
+            position: relative;
+            width: 400px;
+            height: 300px;
+            cursor: pointer;
+        }
+
+        .sobre::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 4;
+            border-top: 180px solid var(--solapa-sobre);
+            border-right: 200px solid transparent;
+            border-left: 200px solid transparent;
+            transform-origin: top;
+            transition: all 0.5s ease-in-out 0.7s;
+            border-radius: 10px;
+        }
+
+        .solapa-derecha {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(100% 0, 0 100%, 100% 100%);
+            background-color: var(--cuerpo-sobre);
+            border-bottom-right-radius: 10px;
+            border-top-right-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        .solapa-izquierda {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(0 0, 0 100%, 100% 100%);
+            background-color: var(--cuerpo-sobre);
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .carta {
+            position: absolute;
+            bottom: 0;
+            width: 120%;
+            height: 120%;
+            background-color: var(--primario);
+            text-align: center;
+            box-shadow: 0 0 10px var(--sombra);
+            padding: 30px;
+            border-radius: 15px;
+            transition: transform 0.5s ease-in-out;
+            display: none;
+            border: 3px solid var(--neon-amarillo);
+            box-shadow: 0 0 20px var(--neon-amarillo), 0 0 10px var(--sombra);
+            left: -10%;
+            top: -10%;
+        }
+
+        .contenido {
+            font-family: "Georgia", serif; /* Fuente más elegante */
+            color: var(--texto);
+            text-align: left;
+            font-size: 18px; /* Tamaño de letra aumentado */
+            border: 2px dashed var(--texto);
+            padding: 20px;
+            height: 100%;
+            line-height: 1.8;
+            cursor: pointer;
+            overflow-y: scroll;
+        }
+
+        /* Estilo para resaltar texto */
+        .contenido strong {
+            color: #ff6b6b; /* Color rojo para resaltar */
+            font-weight: bold;
+        }
+
+        /* Estilo para la imagen en la carta */
+        .imagen-carta {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo para la imagen de Spider-Man */
+        .spider-sello {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px; /* Ajusta el tamaño según tu imagen */
+            height: auto;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+            cursor: pointer;
+            transition: transform 0.5s ease-in-out 1s;
+        }
+
+        /* Clases dinámicas */
+        .abierto .sobre::before {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .abierto .spider-sello {
+            transform: translate(-50%, -50%) rotate(90deg);
+            transition-delay: 0.4s;
+        }
+
+        .carta.mostrar-carta {
+            transform: translateY(-290px);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carta.cerrando-carta {
+            transform: translateY(-290px);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carta.abierta {
+            z-index: 10000;
+        }
+
+        .envoltura-sobre.desactivar-sobre .sobre::before {
+            pointer-events: none;
+        }
+
+        /* Scroll personalizado */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--cuerpo-sobre);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: var(--corazon);
+        }
+
+        /* Vista celular */
+        @media screen and (max-width: 400px) {
+            .contenedor {
+                width: 300px;
+            }
+
+            .sobre {
+                width: 300px;
+                height: 250px;
+            }
+
+            .sobre::before {
+                border-top: 150px solid var(--solapa-sobre);
+                border-right: 150px solid transparent;
+                border-left: 150px solid transparent;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- GIF animado como fondo -->
+    <div class="gif-fondo">
+        <img src="floresgif.gif" alt="Animación de fondo">
+    </div>
+
+    <h1>De: El niño que traes bien enamorado</h1>
+    <div class="subtitulo">Para: Mi enamorada</div>
+    <div class="contenedor">
+        <div class="envoltura-sobre">
+            <div class="sobre">
+                <div class="solapa-derecha"></div>
+                <div class="solapa-izquierda"></div>
+                <!-- Imagen de Spider-Man como sello -->
+                <img src="spiderman.png" alt="Sello de Spider-Man" class="spider-sello">
+            </div>
+            <div class="carta">
+                <div class="contenido">
+                    <p id="texto">
+                        <strong>Pequeña Kika,</strong><br><br>
+                        Hoy no te traje flores amarillas, pero sí una carta para ti. Perdóname si digo algo que suene raro o te llegue a ofender; intento ser sincero y abierto, aunque no soy muy bueno expresando mis sentimientos.<br><br>
+                        Primero, gracias por estar conmigo. Sé que no soy el chico más apuesto ni el mejor sacando temas de conversación, pero, a pesar de cómo soy, gracias por estar aquí. Deseo conocerte más; hay muchas cosas que me gustaría saber de ti, porque me gustas mucho.<br><br>
+                        Sé que en ocasiones no he sido totalmente sincero, pero de verdad, cuando estoy contigo me siento bien. No tengo palabras suficientes para explicar lo cómodo que me siento a tu lado. Me encanta verte; me gusta la forma en que me miras y la manera en que te expresas conmigo. Hay mucho que podría decir en esta carta sobre lo mucho que me gustas, pero prefiero decírtelo en persona.<br><br>
+                        <span style="color: #000000; font-weight: bold;">Si pudiera darte algo, me gustaría darte la capacidad de verte a ti misma a través de mis ojos. Solo entonces entenderas de todo lo que eres ante mis ojos.</span><br><br>
+                        Dato curioso: eres la única persona a la que empecé a escribir tantas cartas después de mucho tiempo. Ya lo sabes, solo quería recordarte que en verdad eres importante para mí.<br><br>
+                        Te quiero mucho. Nunca lo dudes.<br><br>
+                        <img src="tuimagen.png" alt="Imagen especial" class="imagen-carta">
+                        <strong>Con todo mi cariño,<br>Kevin</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="abreme-texto">¡Ábreme!</div>
+
+    <script>
+        const envoltura = document.querySelector(".envoltura-sobre");
+        const carta = document.querySelector(".carta");
+
+        document.addEventListener("click", (e) => {
+            if (e.target.matches(".sobre") ||
+                e.target.matches(".solapa-derecha") ||
+                e.target.matches(".solapa-izquierda") ||
+                e.target.matches(".spider-sello")) {
+                envoltura.classList.toggle("abierto");
+                envoltura.classList.add("desactivar-sobre");
+
+                if (!carta.classList.contains("abierta")) {
+                    setTimeout(() => {
+                        carta.classList.add("mostrar-carta");
+                        carta.style.display = "block";
+
+                        setTimeout(() => {
+                            carta.classList.remove("mostrar-carta");
+                            carta.classList.add("abierta");
+                        }, 500);
+                    }, 1000);
+                }
+            } else if (e.target.matches(".envoltura-sobre *")) {
+                envoltura.classList.remove("abierto");
+                envoltura.classList.remove("desactivar-sobre");
+                if (carta.classList.contains("abierta")) {
+                    carta.classList.add("cerrando-carta");
+
+                    setTimeout(() => {
+                        carta.classList.remove("cerrando-carta");
+                        carta.classList.remove("abierta");
+                        carta.style.display = "none";
+                    }, 500);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
