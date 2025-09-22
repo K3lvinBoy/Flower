@@ -198,6 +198,22 @@
             height: auto;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: flotar 3s ease-in-out infinite;
+        }
+
+        @keyframes flotar {
+            0% {
+                transform: translateY(0px) scale(1);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            50% {
+                transform: translateY(-8px) scale(1.02);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            }
+            100% {
+                transform: translateY(0px) scale(1);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
         }
 
         /* Estilo para la imagen de Spider-Man */
